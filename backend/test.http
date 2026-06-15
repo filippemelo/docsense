@@ -1,0 +1,27 @@
+### Health check
+GET http://localhost:3001/api/health
+
+### Listar documentos
+GET http://localhost:3001/api/documents/listar
+
+### Upload de PDF (ajuste o caminho do arquivo)
+POST http://localhost:3001/api/documents/upload
+Content-Type: multipart/form-data; boundary=----Boundary
+
+------Boundary
+Content-Disposition: form-data; name="pdf"; filename="teste.pdf"
+Content-Type: application/pdf
+
+< C:\Users\filip\Downloads\CPF-GLENDA.pdf
+------Boundary--
+
+###
+
+### Perguntar sobre documento (substitua o documentoId pelo retornado no upload)
+POST http://localhost:3001/api/ask
+Content-Type: application/json
+
+{
+  "documentoId": "1781550260817",
+  "pergunta": "Qual é o assunto principal deste documento?"
+}
