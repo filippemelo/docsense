@@ -3,6 +3,14 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const PDFParser = require("pdf2json");
 
+function decodificarTexto(texto) {
+  try {
+    return decodeURIComponent(texto);
+  } catch {
+    return texto;
+  }
+}
+
 export async function extrairTextoPDF(caminhoArquivo) {
   return new Promise((resolve, reject) => {
     const parser = new PDFParser();
@@ -13,7 +21,7 @@ export async function extrairTextoPDF(caminhoArquivo) {
 
     parser.on("pdfParser_dataReady", (dados) => {
       const texto = dados.Pages.flatMap((pagina) => pagina.Texts)
-        .map((texto) => decodeURIComponent(texto.R.map((r) => r.T).join("")))
+        .map((texto) => decodificarTexto(texto.R.map((r) => r.T).join("")))
         .join(" ");
 
       resolve(texto);
